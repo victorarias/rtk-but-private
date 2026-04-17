@@ -1,3 +1,16 @@
+<h1 align="center">⚠️ Telemetry-free fork of <a href="https://github.com/rtk-ai/rtk">rtk-ai/rtk</a> ⚠️</h1>
+
+> [!IMPORTANT]
+> This is a private fork of [rtk-ai/rtk](https://github.com/rtk-ai/rtk) with **all telemetry and outbound network functionality removed**.
+>
+> - No HTTP pings, no consent prompts, no `rtk telemetry` subcommand.
+> - Local command tracking in SQLite is preserved so `rtk gain` still works on-device.
+> - Install only via `cargo install --path .` from this repo — **`brew install rtk`, `install.sh`, and `cargo install --git rtk-ai/rtk` all pull the upstream build with telemetry re-enabled.**
+>
+> For the official (telemetry-enabled) project, use upstream.
+
+---
+
 <p align="center">
   <img src="https://avatars.githubusercontent.com/u/258253854?v=4" alt="RTK - Rust Token Killer" width="500">
 </p>
@@ -32,8 +45,6 @@
 </p>
 
 ---
-
-> **Fork notice**: this is a private fork of [rtk-ai/rtk](https://github.com/rtk-ai/rtk) with all telemetry and outbound network functionality removed. No HTTP pings, no consent prompts, no `rtk telemetry` subcommand. Local command tracking in SQLite is preserved so `rtk gain` still works on-device. For the official (telemetry-enabled) project, use upstream.
 
 rtk filters and compresses command outputs before they reach your LLM context. Single Rust binary, 100+ supported commands, <10ms overhead.
 
