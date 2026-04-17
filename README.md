@@ -33,6 +33,8 @@
 
 ---
 
+> **Fork notice**: this is a private fork of [rtk-ai/rtk](https://github.com/rtk-ai/rtk) with all telemetry and outbound network functionality removed. No HTTP pings, no consent prompts, no `rtk telemetry` subcommand. Local command tracking in SQLite is preserved so `rtk gain` still works on-device. For the official (telemetry-enabled) project, use upstream.
+
 rtk filters and compresses command outputs before they reach your LLM context. Single Rust binary, 100+ supported commands, <10ms overhead.
 
 ## Token Savings (30-min Claude Code Session)
@@ -57,46 +59,26 @@ rtk filters and compresses command outputs before they reach your LLM context. S
 
 ## Installation
 
-### Homebrew (recommended)
+Because this fork is not published to Homebrew, crates.io, or the upstream release artifacts, the only way to get the telemetry-free binary is to build from source. Installing via `brew install rtk`, the upstream `install.sh`, or `cargo install --git https://github.com/rtk-ai/rtk` will pull the upstream build **with telemetry re-enabled**.
+
+### From source (this fork)
 
 ```bash
-brew install rtk
+git clone git@github.com:victorarias/rtk-but-private.git
+cd rtk-but-private
+cargo install --path .
 ```
 
-### Quick Install (Linux/macOS)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
-```
-
-> Installs to `~/.local/bin`. Add to PATH if needed:
-> ```bash
-> echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc  # or ~/.zshrc
-> ```
-
-### Cargo
-
-```bash
-cargo install --git https://github.com/rtk-ai/rtk
-```
-
-### Pre-built Binaries
-
-Download from [releases](https://github.com/rtk-ai/rtk/releases):
-- macOS: `rtk-x86_64-apple-darwin.tar.gz` / `rtk-aarch64-apple-darwin.tar.gz`
-- Linux: `rtk-x86_64-unknown-linux-musl.tar.gz` / `rtk-aarch64-unknown-linux-gnu.tar.gz`
-- Windows: `rtk-x86_64-pc-windows-msvc.zip`
-
-> **Windows users**: Extract the zip and place `rtk.exe` somewhere in your PATH (e.g. `C:\Users\<you>\.local\bin`). Run RTK from **Command Prompt**, **PowerShell**, or **Windows Terminal** — do not double-click the `.exe` (it will flash and close). For the best experience, use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) where the full hook system works natively. See [Windows setup](#windows) below for details.
+This installs `rtk` into `~/.cargo/bin`. Make sure that directory is on your PATH.
 
 ### Verify Installation
 
 ```bash
-rtk --version   # Should show "rtk 0.28.2"
+rtk --version   # Should show "rtk 0.37.0" (or newer)
 rtk gain        # Should show token savings stats
 ```
 
-> **Name collision warning**: Another project named "rtk" (Rust Type Kit) exists on crates.io. If `rtk gain` fails, you have the wrong package. Use `cargo install --git` above instead.
+> **Name collision warning**: Another project named "rtk" (Rust Type Kit) exists on crates.io. If `rtk gain` fails, you have the wrong package — rebuild from this fork.
 
 ## Quick Start
 
@@ -321,7 +303,9 @@ For the best experience, use [WSL](https://learn.microsoft.com/en-us/windows/wsl
 
 ```bash
 # Inside WSL
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+git clone git@github.com:victorarias/rtk-but-private.git
+cd rtk-but-private
+cargo install --path .
 rtk init -g
 ```
 
@@ -330,8 +314,11 @@ rtk init -g
 On native Windows (cmd.exe / PowerShell), RTK filters work but the hook does not auto-rewrite commands:
 
 ```powershell
-# 1. Download and extract rtk-x86_64-pc-windows-msvc.zip from releases
-# 2. Add rtk.exe to your PATH
+# 1. Install Rust (https://rustup.rs) and build from source
+git clone git@github.com:victorarias/rtk-but-private.git
+cd rtk-but-private
+cargo install --path .
+# 2. Ensure %USERPROFILE%\.cargo\bin is on your PATH
 # 3. Initialize (falls back to CLAUDE.md injection)
 rtk init -g
 # 4. Use rtk explicitly
@@ -397,7 +384,6 @@ For the full config reference (all sections, env vars, per-project filters), see
 ```bash
 rtk init -g --uninstall     # Remove hook, RTK.md, settings.json entry
 cargo uninstall rtk          # Remove binary
-brew uninstall rtk           # If installed via Homebrew
 ```
 
 ## Documentation
@@ -407,10 +393,6 @@ brew uninstall rtk           # If installed via Homebrew
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** — system design and technical decisions
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** — contribution guide
 - **[SECURITY.md](SECURITY.md)** — security policy
-
-## Privacy
-
-This fork does not collect or transmit any usage data. All tracking is local-only (SQLite at `~/.local/share/rtk/history.db`), used to power `rtk gain` analytics on your machine. Nothing is sent over the network.
 
 ## Star History
 
