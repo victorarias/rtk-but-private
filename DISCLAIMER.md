@@ -22,7 +22,7 @@ This software interacts with your development environment, file system, and exte
 
 ## Telemetry
 
-This software collects anonymous, aggregate usage metrics by default and can be disabled at any time. No personally identifiable information, source code, file paths, command arguments, or secrets are collected. See the README for full details and opt-out instructions.
+This fork has had all telemetry and outbound network functionality removed. The tool performs no data collection and contacts no external services. Local command tracking (SQLite in `~/.local/share/rtk/`) remains for on-device analytics only.
 
 ---
 
